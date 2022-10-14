@@ -1,0 +1,77 @@
+body{
+    background-color: rgba(23, 19, 19, 0.7);
+}
+
+.back , .procent{
+    opacity: 0.5;
+}
+
+.calculator{
+    
+    
+    width: auto;
+    height: auto;
+    max-width: 400px;
+    min-height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid gray;
+    display: flex;
+    flex-flow: wrap;
+    background-color: rgb(54, 51, 51);
+    flex-grow: 1;
+    box-shadow: 2px 2px rgb(37, 32, 32); 
+    border-radius: 10px;
+    
+    
+}
+.displayField{
+    width: 100%;
+    height: auto;
+    min-height: 50px;
+    text-align: right;
+    font-size: 30px;
+    margin: 5px 10px;
+    position: relative;
+    top: 40px;
+    color: aliceblue;
+    word-wrap: break-word;
+    
+}
+
+.number{
+    padding: 5px;
+    margin: 5px;
+    flex-basis: 20%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 30px;
+    background-color: rgb(144, 123, 123);
+    border-radius: 10px;
+    
+    
+}
+
+.operator, .other{
+    position: relative;
+    justify-content: right;
+    padding: 5px;
+    margin: 5px;
+    flex-basis: 20%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    background-color: rgb(144, 123, 123);
+    font-size: 30px;
+}
+
+.zero, .comma, .equal{
+    flex-basis: 30%;
+    background-color: rgb(144, 123, 123);
+    font-size: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 5px;
+    margin: 5px;
+}
