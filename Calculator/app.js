@@ -15,12 +15,12 @@ var operator = "";
 var trycktOperator = false;
 var calculationMade = false;
 var x;
-var statusCalc = "number";
+var statusCalc = "calculation";
+var clicked = true;
+var lastOperator = ".minus";
 
-console.log(clear.innerText);
-
-numbers.forEach((element) => {
-  element.addEventListener("click", function () {
+numbers.forEach((elementNumber) => {
+  elementNumber.addEventListener("click", function () {
     //Om jag har tryckt på operator en gång, rensa fältet
     //för att skriva nästa
 
@@ -28,34 +28,44 @@ numbers.forEach((element) => {
       display.innerText = "";
       trycktOperator = false;
     }
-    display.innerText += element.innerText;
+    display.innerText += elementNumber.innerText;
     currentDisplay += display.innerText;
     statusCalc = "number";
   });
 });
-
+//Rensa alla fält
 clear.addEventListener("click", function () {
-  console.log("display: " + display.innerText);
   display.innerText = "";
   currentDisplay = "";
   firstOperator = "";
   firstnumber = 0;
   secondnumber = 0;
   notFirstTimeOperator = false;
+  document.querySelector(lastOperator).style.borderColor = "white";
 });
-//10+20 + 30 10 +
-operators.forEach((element) => {
-  element.addEventListener("click", function () {
+
+operators.forEach((elementOperator) => {
+  elementOperator.addEventListener("click", function () {
+    //Ta bort markering från förra knappen
+    document.querySelector(lastOperator).style.borderColor = "white";
+    if(elementOperator.innerText == "%" 
+    && !isNaN(display.innerText) ){
+      display.innerText = display.innerText/100;
+      firstnumber = display.innerText;
+      //notFirstTimeOperator = true;
+      //firstOperator = elementOperator.innerText;
+    }
+
     //Gå in här endast om man har knappat in nummer
-    if (statusCalc == "number") {
-      operator = element.innerText;
+    if (statusCalc == "number" && elementOperator.innerText != "%") {
+      operator = elementOperator.innerText;
       trycktOperator = true;
       if (notFirstTimeOperator) {
         if (calculationMade) {
         }
         secondnumber = display.innerText;
         display.innerText = "";
-        calculate(firstnumber, firstOperator, operator, secondnumber);
+        calculate(firstnumber, firstOperator, secondnumber);
         firstnumber = calculatededAnswer;
         if (operator != "=") firstOperator = operator;
       } else {
@@ -63,40 +73,42 @@ operators.forEach((element) => {
         //ett nummer och tryckt på en operator
         firstnumber = display.innerText;
         notFirstTimeOperator = true;
-        firstOperator = element.innerText;
+        firstOperator = elementOperator.innerText;
       }
       statusCalc = "calculation";
-    } else {
+    } else if(elementOperator.innerText != "%") {
       //Ingen uträkning, spara endast den senast
       //tryckta operatorn
-      firstOperator = element.innerText;
+      firstOperator = elementOperator.innerText;
     }
+    //Håll den intryckte knappen tills en ny knapp trycks
+    elementOperator.style.borderColor = "blue";
+    lastOperator = "." + elementOperator.classList[0];
+
+    
   });
 });
 
-function calculate(firstnumber, firstOperator, operator, secondnumber) {
+function calculate(firstnumber, firstOperator, secondnumber) {
   switch (firstOperator) {
     case "+":
       answer = parseFloat(firstnumber) + parseFloat(secondnumber);
-      console.log(answer);
       break;
     case "-":
       answer = parseFloat(firstnumber) - parseFloat(secondnumber);
-      console.log(answer);
       break;
     case "/":
       answer = parseFloat(firstnumber) / parseFloat(secondnumber);
-      console.log(answer);
       break;
     case "*":
       answer = parseFloat(firstnumber) * parseFloat(secondnumber);
-      console.log(answer);
       break;
     default:
   }
 
-  display.innerText = answer;
+  display.innerText = Math.round(answer * 100000000000000) / 100000000000000;
   calculationMade = true;
   secondnumber = "";
-  calculatededAnswer = answer;
+  calculatededAnswer = Math.round(answer * 100000000000000) / 100000000000000;
+
 }
