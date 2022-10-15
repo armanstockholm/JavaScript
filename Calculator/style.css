@@ -5,11 +5,11 @@ body{
         rgba(23, 19, 19, 0.7), 
         rgb(37, 22, 22))
         ;
+        font-family: 'Roboto', sans-serif;
+    
 }
 
-.back{
-    opacity: 0.5;
-}
+
 
 .calculator{
     
@@ -36,18 +36,20 @@ body{
 }
 .displayField{
     
-    width: 90%;
+    width: 95%;
     height: auto;
     min-height: 50px;
     text-align: right;
     font-size: 40px;
-    margin: 5px 10px;
+    margin: 5px 5px;
+    
     position: relative;
     top: 10px;
-    color: aliceblue;
+    color: rgb(7, 11, 14);
     word-wrap: break-word;
-    
-    padding: 5px;
+    padding: 10px;
+    background-color: rgba(255, 235, 205, 0.427);
+    margin-bottom: 10px;
     
 }
 
@@ -97,3 +99,63 @@ body{
     border: 1px solid red;
     color: red;
 }
+.left, .right, .upper{
+    flex-basis: 8%;
+}
+
+.zero, .comma{
+    flex-grow: 0;
+}
+
+.signature{
+    position: absolute;
+    font-size: 0.6rem;
+    max-width: 150px;
+    right: 15px;
+    bottom: -10px;
+    color: white;
+    
+}
+.upper{
+    opacity: 0.2;
+}
+
+@media screen and (max-width:501px) {
+    .signature{
+        font-size: 0.7rem;
+        bottom: -10px;
+        margin: 5px;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        
+    }
+
+    .operator, .number, .other{
+        position: relative;
+        justify-content: right;
+        padding: 5px;
+        margin: 5px;
+        flex-basis: 20%;
+        flex-grow: 1;
+        flex-shrink: 1;
+        background-color: rgb(144, 123, 123);
+        font-size: 20px;
+        border-radius: 1px;
+        transition: all ease-in-out 200ms;
+        border-color: white;
+    }
+    .calculator{
+        flex-grow: 1;
+        width: 97%;
+        max-width: 97%;
+        height: 95%;
+        
+    
+    }
+
+    .displayField{
+      
+        margin-bottom: 20px;
+        text-justify: auto;
+    }
+  }

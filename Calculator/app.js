@@ -1,114 +1,48 @@
-let numbers = document.querySelectorAll(".number");
-var display = document.querySelector(".displayField");
-let clear = document.querySelector(".clear");
-let equal = document.querySelector(".equal");
-let operators = document.querySelectorAll(".operator");
-var number = null;
-var currentDisplay = "";
-var firstOperator = "";
-var process = false;
-var firstnumber;
-var calculatededAnswer = 1;
-var secondnumber;
-var notFirstTimeOperator = false;
-var operator = "";
-var trycktOperator = false;
-var calculationMade = false;
-var x;
-var statusCalc = "calculation";
-var clicked = true;
-var lastOperator = ".minus";
+const $buttons = document.querySelectorAll(".calculator button");
+let $displayField = document.querySelector(".displayField");
 
-numbers.forEach((elementNumber) => {
-  elementNumber.addEventListener("click", function () {
-    //Om jag har tryckt på operator en gång, rensa fältet
-    //för att skriva nästa
 
-    if (notFirstTimeOperator && trycktOperator) {
-      display.innerText = "";
-      trycktOperator = false;
-    }
-    display.innerText += elementNumber.innerText;
-    currentDisplay += display.innerText;
-    statusCalc = "number";
-  });
-});
-//Rensa alla fält
-clear.addEventListener("click", function () {
-  display.innerText = "";
-  currentDisplay = "";
-  firstOperator = "";
-  firstnumber = 0;
-  secondnumber = 0;
-  notFirstTimeOperator = false;
-  document.querySelector(lastOperator).style.borderColor = "white";
-});
-
-operators.forEach((elementOperator) => {
-  elementOperator.addEventListener("click", function () {
-    //Ta bort markering från förra knappen
-    document.querySelector(lastOperator).style.borderColor = "white";
-    if(elementOperator.innerText == "%" 
-    && !isNaN(display.innerText) ){
-      display.innerText = display.innerText/100;
-      firstnumber = display.innerText;
-      //notFirstTimeOperator = true;
-      //firstOperator = elementOperator.innerText;
-    }
-
-    //Gå in här endast om man har knappat in nummer
-    if (statusCalc == "number" && elementOperator.innerText != "%") {
-      operator = elementOperator.innerText;
-      trycktOperator = true;
-      if (notFirstTimeOperator) {
-        if (calculationMade) {
+$buttons.forEach((button) => {
+    button.addEventListener('click', function(){
+        const value = button.innerText.trim();
+        const result = $displayField.innerText.trim();
+    try{
+        if(result == "Error" ||
+        result == "NaN" ||
+        result == "Infinity" ||
+        result == "0"){
+            $displayField.innerText = "";
         }
-        secondnumber = display.innerText;
-        display.innerText = "";
-        calculate(firstnumber, firstOperator, secondnumber);
-        firstnumber = calculatededAnswer;
-        if (operator != "=") firstOperator = operator;
-      } else {
-        //Gör detta första gången man har skrivit
-        //ett nummer och tryckt på en operator
-        firstnumber = display.innerText;
-        notFirstTimeOperator = true;
-        firstOperator = elementOperator.innerText;
-      }
-      statusCalc = "calculation";
-    } else if(elementOperator.innerText != "%") {
-      //Ingen uträkning, spara endast den senast
-      //tryckta operatorn
-      firstOperator = elementOperator.innerText;
+        if(value == "%"){
+            let result = parseFloat($displayField.innerText)/100;
+            $displayField.innerText = result;
+            return;
+        }
+        if(value == "="){
+            let result = eval( $displayField.innerText.trim() ) 
+            $displayField.innerText = Math.round(result *100000000000000)/100000000000000 ;
+            return;
+        }
+        if(value == "C" || value == "Error" || value == "NaN"){
+            $displayField.innerText = "0";
+            return;
+        }
+        if(value == "<"){
+            let d = "s";
+            d = $displayField.innerText; 
+            $displayField.innerText = d.slice(0, -1);
+            return;
+        }
+
+
+        $displayField.append(value);
+        if($displayField.innerText == "."){
+            $displayField.innerText = "0."
+        }
+    }catch(e){
+        console.log(e);
+        $displayField.innerText = "Error"
     }
-    //Håll den intryckte knappen tills en ny knapp trycks
-    elementOperator.style.borderColor = "blue";
-    lastOperator = "." + elementOperator.classList[0];
+    })
+})
 
-    
-  });
-});
-
-function calculate(firstnumber, firstOperator, secondnumber) {
-  switch (firstOperator) {
-    case "+":
-      answer = parseFloat(firstnumber) + parseFloat(secondnumber);
-      break;
-    case "-":
-      answer = parseFloat(firstnumber) - parseFloat(secondnumber);
-      break;
-    case "/":
-      answer = parseFloat(firstnumber) / parseFloat(secondnumber);
-      break;
-    case "*":
-      answer = parseFloat(firstnumber) * parseFloat(secondnumber);
-      break;
-    default:
-  }
-
-  display.innerText = Math.round(answer * 100000000000000) / 100000000000000;
-  calculationMade = true;
-  secondnumber = "";
-  calculatededAnswer = Math.round(answer * 100000000000000) / 100000000000000;
-
-}
