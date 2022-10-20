@@ -99,6 +99,7 @@ body{
     border-radius: 10px;
     transition: all ease-in-out 200ms;
     border-color: white;
+    color: black;
     
     
 }
@@ -116,6 +117,7 @@ body{
     border-radius: 1px;
     transition: all ease-in-out 200ms;
     border-color: white;
+    color: black;
 }
 
 .zero, .comma, .equal{
